@@ -48,24 +48,38 @@ func (h *Handler) GenPattern(pattern api.Pattern) (api.Pattern, error) {
 
 func (h *Handler) GenTemplate(template string, override api.Pattern) (api.Pattern, error) {
 	tmpl, err := h.buffer.Get(template)
+
 	if err != nil {
-		logger.Log.WithField("caller", "HandleTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", template, err)
+		logger.Log.WithField("caller", "GenTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", template, err)
 		return nil, types.NewTemplateNotFoundErr(err.Error())
 	}
 
+	logger.Log.WithField("caller", "GenTemplate").Debugf("поулчение темплейтa %s из буфера: %+v", template, tmpl)
+
 	//оверрайдим темплейт
-	for k := range override {
-		if override[k] != nil && tmpl[k] != nil {
-			tmpl[k] = override[k]
-		} else {
-			logger.Log.WithField("caller", "HandleTemplate").Warnf("несуществующее поле %s в темплейте %s", k, template)
-		}
-	}
+	tmpl = overrideTemplate(tmpl, override)
 
 	toSend := h.generator.Generate(tmpl)
 
 	return toSend, nil
 
+}
+
+func overrideTemplate(tmpl, override api.Pattern) api.Pattern {
+	for k := range override {
+		_, ovk := override[k]
+		if ovk {
+			_, ok := tmpl[k]
+			if !ok {
+				logger.Log.WithField("caller", "GenTemplate").Warnf("несуществующее поле %s в темплейте", k)
+				continue
+			}
+
+			tmpl[k] = override[k]
+		}
+	}
+
+	return tmpl
 }
 
 func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, count, delay int) error {
@@ -78,13 +92,7 @@ func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, c
 	}
 
 	//оверрайдим темплейт
-	for k := range override {
-		if override[k] != nil && tmpl[k] != nil {
-			tmpl[k] = override[k]
-		} else {
-			logger.Log.WithField("caller", "HandleTemplate").Warnf("несуществующее поле %s в темплейте %s", k, template)
-		}
-	}
+	tmpl = overrideTemplate(tmpl, override)
 
 	for range count {
 		toSend = append(toSend, h.generator.Generate(tmpl))
