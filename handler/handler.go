@@ -65,6 +65,51 @@ func (h *Handler) GenTemplate(template string, override api.Pattern) (api.Patter
 
 }
 
+func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, count, delay int) error {
+	toSend := make([]api.Pattern, 0)
+
+	tmpl, err := h.buffer.Get(template)
+	if err != nil {
+		logger.Log.WithField("caller", "HandleTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", template, err)
+		return types.NewTemplateNotFoundErr(err.Error())
+	}
+
+	//оверрайдим темплейт
+	tmpl = overrideTemplate(tmpl, override)
+
+	for range count {
+		toSend = append(toSend, h.generator.Generate(tmpl))
+	}
+
+	go h.publisher.Publish(queue, toSend, delay)
+
+	return nil
+}
+
+func (h *Handler) GetTemplates() []string {
+
+	return h.buffer.GetAll()
+}
+
+func (h *Handler) GetTemplate(name string) (api.Pattern, error) {
+	pattern, err := h.buffer.Get(name)
+	if err != nil {
+		logger.Log.WithField("caller", "GetTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", name, err)
+		return nil, err
+	}
+
+	return pattern, nil
+}
+
+func (h *Handler) AddUpdateTemplate(name string, pattern api.Pattern) error {
+	if err := h.buffer.Set(name, pattern); err != nil {
+		logger.Log.WithField("caller", "AddUpdateTemplate").Errorf("ошбика сохранения темплейтa %s в буфер: %v", name, err)
+		return err
+	}
+
+	return nil
+}
+
 func overrideTemplate(tmpl, override api.Pattern) api.Pattern {
 	for key, overrideVal := range override {
 		// Проверяем существование ключа в корне шаблона
@@ -126,49 +171,4 @@ func processNested(tmpl, override map[string]interface{}, path string) map[strin
 		tmpl[nestedKey] = nestedVal
 	}
 	return tmpl
-}
-
-func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, count, delay int) error {
-	toSend := make([]api.Pattern, 0)
-
-	tmpl, err := h.buffer.Get(template)
-	if err != nil {
-		logger.Log.WithField("caller", "HandleTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", template, err)
-		return types.NewTemplateNotFoundErr(err.Error())
-	}
-
-	//оверрайдим темплейт
-	tmpl = overrideTemplate(tmpl, override)
-
-	for range count {
-		toSend = append(toSend, h.generator.Generate(tmpl))
-	}
-
-	go h.publisher.Publish(queue, toSend, delay)
-
-	return nil
-}
-
-func (h *Handler) GetTemplates() []string {
-
-	return h.buffer.GetAll()
-}
-
-func (h *Handler) GetTemplate(name string) (api.Pattern, error) {
-	pattern, err := h.buffer.Get(name)
-	if err != nil {
-		logger.Log.WithField("caller", "GetTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", name, err)
-		return nil, err
-	}
-
-	return pattern, nil
-}
-
-func (h *Handler) AddUpdateTemplate(name string, pattern api.Pattern) error {
-	if err := h.buffer.Set(name, pattern); err != nil {
-		logger.Log.WithField("caller", "AddUpdateTemplate").Errorf("ошбика сохранения темплейтa %s в буфер: %v", name, err)
-		return err
-	}
-
-	return nil
 }

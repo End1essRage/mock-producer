@@ -19,7 +19,7 @@ type Request struct {
 	Queue   string  `json:"queue,omitempty"`
 	Pattern Pattern `json:"pattern"`
 	Count   int     `json:"count,omitempty"`
-	Delay   int     `json:"dekay,omitempty"`
+	Delay   int     `json:"delay,omitempty"`
 }
 
 type TemplateRequest struct {
