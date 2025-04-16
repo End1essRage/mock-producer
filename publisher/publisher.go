@@ -84,8 +84,6 @@ func (p *Publisher) Publish(queue string, pattern []api.Pattern, delay int) erro
 
 		msg := message.NewMessage(watermill.NewUUID(), data)
 
-		logger.Log.WithField("caller", "publisher").Debugf("сообщение: %+v", msg)
-
 		if err := p.publisher.Publish(queue, msg); err != nil {
 			logger.Log.WithField("caller", "publisher").Errorf("ошибка отправки сообщения: %v", err)
 			return err
