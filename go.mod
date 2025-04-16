@@ -1,4 +1,4 @@
-module gitlab.gitlab.bcs.ru/elma365/mock-producer
+module gitlab.gitlab.bcs.ru/test-tools/mock-producer
 
 go 1.24.0
 

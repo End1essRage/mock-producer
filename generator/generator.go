@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/api"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
 )
 
 //генерация по предоставленному шаблону

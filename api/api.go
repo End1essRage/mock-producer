@@ -9,8 +9,8 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/logger"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/types"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/types"
 )
 
 type Pattern map[string]interface{}

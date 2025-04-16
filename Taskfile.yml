@@ -1,0 +1,43 @@
+version: '3'
+
+vars:
+  BRANCH_NAME: ""
+  COMMIT_MESSAGE: ""
+
+tasks:
+  test:
+    desc: Run tests with race detector
+    env:
+      CGO_ENABLED: "1"
+    cmds:
+      - go test -v -race ./...
+
+  # Запуск бенчмарков
+  bench:
+    desc: Run benchmarks
+    env:
+      CGO_ENABLED: "1"
+    cmds:
+      - go test -bench=. -benchmem -v ./...
+
+  # Покрытие кода
+  test_cover:
+    desc: Generate test coverage
+    cmds:
+      - go test -coverprofile=coverage.out ./...
+      - go tool cover -html=coverage.out
+
+  # Очистка
+  test_clean:
+    desc: Clean test artifacts
+    cmds:
+      - go clean -testcache
+      - rm -f coverage.out
+
+  new_version:
+    desc: "creates branch, add commit and pushes"
+    cmds:
+      - git checkout -b {{.BRANCH_NAME}}
+      - git add -A
+      - git commit -m "{{.COMMIT_MESSAGE}}"
+      - git push --set-upstream origin {{.BRANCH_NAME}}

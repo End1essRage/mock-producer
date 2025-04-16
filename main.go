@@ -12,14 +12,14 @@ import (
 	"github.com/caarlos0/env/v11"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/api"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/buffer"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/config"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/generator"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/handler"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/logger"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/publisher"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/secrets"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/buffer"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/config"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/generator"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/handler"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/publisher"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/secrets"
 )
 
 var (

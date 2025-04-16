@@ -6,7 +6,7 @@ import (
 
 	vault "github.com/hashicorp/vault/api"
 	auth "github.com/hashicorp/vault/api/auth/kubernetes"
-	"gitlab.gitlab.bcs.ru/elma365/mock-producer/config"
+	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/config"
 )
 
 const ServiceAccountTokenPath = "../var/run/secrets/kubernetes.io/serviceaccount/token"

@@ -12,7 +12,7 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux go build -o /app/integr-bus ./main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o /app/mock-producer ./main.go
 
 FROM registry.gitlab.bcs.ru/devops/images/docker/alpine-3-18-with-certs:master
 
@@ -20,11 +20,11 @@ FROM registry.gitlab.bcs.ru/devops/images/docker/alpine-3-18-with-certs:master
 WORKDIR /app
 
 # Копируем собранный бинарник из этапа сборки
-COPY --from=builder /app/integr-bus .
+COPY --from=builder /app/mock-producer .
 COPY --from=builder /app/templates .
 
 EXPOSE 80
 EXPOSE 443
 
-CMD ["./integr-bus"]
+CMD ["./mock-producer"]
 
