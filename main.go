@@ -84,7 +84,7 @@ func init() {
 
 func main() {
 	var cfg config.Config
-	// parse with generics
+	// парсим
 	cfg, err := env.ParseAs[config.Config]()
 	if err != nil {
 		panic(err)
