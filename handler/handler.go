@@ -67,7 +67,7 @@ func (h *Handler) GenTemplate(template string, override api.Pattern) (api.Patter
 
 func overrideTemplate(tmpl, override api.Pattern) api.Pattern {
 	for key, overrideVal := range override {
-		// Проверяем существование ключа в шаблоне
+		// Проверяем существование ключа в корне шаблона
 		tmplVal, existsInTemplate := tmpl[key]
 		if !existsInTemplate {
 			logger.Log.WithField("caller", "overrideTemplate").Warnf("несуществующее поле %s в темплейте", key)
@@ -77,12 +77,13 @@ func overrideTemplate(tmpl, override api.Pattern) api.Pattern {
 		// Обработка вложенных структур
 		if overrideMap, ok := overrideVal.(map[string]interface{}); ok {
 			if tmplMap, ok := tmplVal.(map[string]interface{}); ok {
-				// Рекурсивный вызов для вложенной структуры
-				tmpl[key] = overrideTemplate(tmplMap, overrideMap)
+				// Рекурсивно проверяем вложенные поля
+				processedMap := processNested(tmplMap, overrideMap, key)
+				tmpl[key] = processedMap
 			} else {
 				logger.Log.WithField("caller", "overrideTemplate").Warnf(
-					"поле %s имеет разные типы (шаблон: %T, переопределение: %T)",
-					key, tmplVal, overrideVal,
+					"типы поля %s не совпадают (ожидался объект, получен %T)",
+					key, overrideVal,
 				)
 			}
 			continue
@@ -90,6 +91,39 @@ func overrideTemplate(tmpl, override api.Pattern) api.Pattern {
 
 		// Перезаписываем значение для примитивных типов
 		tmpl[key] = overrideVal
+	}
+	return tmpl
+}
+
+func processNested(tmpl, override map[string]interface{}, path string) map[string]interface{} {
+	for nestedKey, nestedVal := range override {
+		fullPath := path + "." + nestedKey
+
+		// Проверяем существование вложенного поля
+		tmplNestedVal, exists := tmpl[nestedKey]
+		if !exists {
+			logger.Log.WithField("caller", "overrideTemplate").Warnf(
+				"несуществующее поле %s в темплейте",
+				fullPath,
+			)
+			continue
+		}
+
+		// Рекурсивная обработка вложенных структур
+		if nestedMap, ok := nestedVal.(map[string]interface{}); ok {
+			if tmplNestedMap, ok := tmplNestedVal.(map[string]interface{}); ok {
+				tmpl[nestedKey] = processNested(tmplNestedMap, nestedMap, fullPath)
+			} else {
+				logger.Log.WithField("caller", "overrideTemplate").Warnf(
+					"типы поля %s не совпадают (ожидался объект, получен %T)",
+					fullPath, nestedVal,
+				)
+			}
+			continue
+		}
+
+		// Перезапись простых значений
+		tmpl[nestedKey] = nestedVal
 	}
 	return tmpl
 }
