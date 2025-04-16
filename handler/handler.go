@@ -6,35 +6,88 @@ import (
 )
 
 type Generator interface {
+	Generate(pattern api.Pattern) api.Pattern
 }
 
-type Handler struct{}
-
-func New() *Handler {
-	return &Handler{}
+type Buffer interface {
+	GetAll() []string
+	Get(name string) (api.Pattern, error)
+	Set(name string, pattern api.Pattern) error
 }
 
-func (h *Handler) HandlePattern(queue string, pattern api.Pattern, count int) error {
-	logger.Log.WithField("caller", "HandlePattern").Warn("NOT IMPLEMENTED")
+type Publisher interface {
+	Publish(queue string, pattern []api.Pattern, delay int)
+}
+
+type Handler struct {
+	buffer    Buffer
+	generator Generator
+	publisher Publisher
+}
+
+func New(b Buffer, p Publisher, g Generator) *Handler {
+	return &Handler{buffer: b, publisher: p, generator: g}
+}
+
+func (h *Handler) HandlePattern(queue string, pattern api.Pattern, count, delay int) error {
+	toSend := make([]api.Pattern, 0)
+
+	for range count {
+		toSend = append(toSend, h.generator.Generate(pattern))
+	}
+
+	go h.publisher.Publish(queue, toSend, delay)
+
 	return nil
 }
 
-func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, count int) error {
-	logger.Log.WithField("caller", "HandleTemplate").Warn("NOT IMPLEMENTED")
+func (h *Handler) HandleTemplate(template, queue string, override api.Pattern, count, delay int) error {
+	toSend := make([]api.Pattern, 0)
+
+	tmpl, err := h.buffer.Get(template)
+	if err != nil {
+		logger.Log.WithField("caller", "HandleTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", template, err)
+		return err
+	}
+
+	//оверрайдим темплейт
+	for k, _ := range override {
+		if override[k] != nil && tmpl[k] != nil {
+			tmpl[k] = override[k]
+		} else {
+			logger.Log.WithField("caller", "HandleTemplate").Warnf("несуществующее поле %s в темплейте %s", k, template)
+		}
+	}
+
+	for range count {
+		toSend = append(toSend, h.generator.Generate(tmpl))
+	}
+
+	go h.publisher.Publish(queue, toSend, delay)
+
 	return nil
 }
 
-func (h *Handler) GetTemplates() ([]string, error) {
-	logger.Log.WithField("caller", "GetTemplates").Warn("NOT IMPLEMENTED")
-	return nil, nil
+func (h *Handler) GetTemplates() []string {
+
+	return h.buffer.GetAll()
 }
 
 func (h *Handler) GetTemplate(name string) (api.Pattern, error) {
-	logger.Log.WithField("caller", "GetTemplate").Warn("NOT IMPLEMENTED")
-	return nil, nil
+	pattern, err := h.buffer.Get(name)
+	if err != nil {
+		logger.Log.WithField("caller", "GetTemplate").Errorf("ошбика поулчения темплейтa %s из буфера: %v", name, err)
+		return nil, err
+	}
+
+	return pattern, nil
 }
 
 func (h *Handler) AddUpdateTemplate(name string, pattern api.Pattern) error {
-	logger.Log.WithField("caller", "AddUpdateTemplate").Warn("NOT IMPLEMENTED")
+	if err := h.buffer.Set(name, pattern); err != nil {
+		logger.Log.WithField("caller", "AddUpdateTemplate").Errorf("ошбика сохранения темплейтa %s в буфер: %v", name, err)
+		return err
+	}
+
 	return nil
 }

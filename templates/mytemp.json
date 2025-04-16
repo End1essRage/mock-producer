@@ -1,0 +1,8 @@
+{
+    "system_block": {
+      "message_type": "randString"
+    },
+    "body": {
+      "id": "randNum"
+    }
+  }

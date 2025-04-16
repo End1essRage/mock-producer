@@ -19,6 +19,7 @@ type Request struct {
 	Queue   string  `json:"queue"`
 	Pattern Pattern `json:"pattern"`
 	Count   int     `json:"count"`
+	Delay   int     `json:"dekay,omitempty"`
 }
 
 type TemplateRequest struct {
@@ -27,9 +28,9 @@ type TemplateRequest struct {
 }
 
 type Handler interface {
-	HandlePattern(queue string, pattern Pattern, count int) error
-	HandleTemplate(template, queue string, override Pattern, count int) error
-	GetTemplates() ([]string, error)
+	HandlePattern(queue string, pattern Pattern, count, delay int) error
+	HandleTemplate(template, queue string, override Pattern, count, delay int) error
+	GetTemplates() []string
 	GetTemplate(name string) (Pattern, error)
 	AddUpdateTemplate(name string, pattern Pattern) error
 }
@@ -96,7 +97,7 @@ func (a *API) registerHandlers() {
 			return
 		}
 
-		if err := a.handler.HandlePattern(body.Queue, body.Pattern, body.Count); err != nil {
+		if err := a.handler.HandlePattern(body.Queue, body.Pattern, body.Count, body.Delay); err != nil {
 			logger.Log.WithField("endpoint", "/send-pattern").Errorf("%v", err)
 
 			w.WriteHeader(http.StatusInternalServerError)
@@ -132,7 +133,7 @@ func (a *API) registerHandlers() {
 			return
 		}
 
-		if err := a.handler.HandleTemplate(body.Template, body.Queue, body.Pattern, body.Count); err != nil {
+		if err := a.handler.HandleTemplate(body.Template, body.Queue, body.Pattern, body.Count, body.Delay); err != nil {
 			var templateNotFoundErr types.TemplateNotFoundErr
 			switch {
 			case errors.As(err, &templateNotFoundErr):
@@ -153,13 +154,7 @@ func (a *API) registerHandlers() {
 
 	//получить все шаблоны
 	a.router.Get("/template", func(w http.ResponseWriter, r *http.Request) {
-		templates, err := a.handler.GetTemplates()
-		if err != nil {
-			logger.Log.WithField("endpoint", "GET /template").Errorf("%v", err)
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(fmt.Sprintf("%v", err)))
-			return
-		}
+		templates := a.handler.GetTemplates()
 
 		jsonData, err := json.Marshal(templates)
 		if err != nil {

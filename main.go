@@ -12,9 +12,12 @@ import (
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/api"
+	"gitlab.gitlab.bcs.ru/elma365/mock-producer/buffer"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/config"
+	"gitlab.gitlab.bcs.ru/elma365/mock-producer/generator"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/handler"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/logger"
+	"gitlab.gitlab.bcs.ru/elma365/mock-producer/publisher"
 )
 
 var (
@@ -88,7 +91,13 @@ func main() {
 
 	logger.Log.Debugf("%+v", cfg)
 
-	handler := handler.New()
+	b := buffer.New()
+	b.FillFromFiles("./templates")
+
+	p := publisher.New()
+	g := generator.New()
+
+	handler := handler.New(b, p, g)
 	api := api.New(handler)
 
 	api.Start(":8080")

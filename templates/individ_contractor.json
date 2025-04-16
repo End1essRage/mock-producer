@@ -1,0 +1,38 @@
+{
+    "system_block": {
+      "message_type": "#contractor",
+      "originator": "SharePoint.ContractualDocuments",
+      "mean_for": "IS.Clipboard",
+      "document_id": "93C8E8DE-89E9-4B97-ADF4-35BB8EB7D8AA",
+      "event": "New",
+      "event_time": "2015-03-01T00:00:00"
+    },
+    "body": {
+      "id": 1,
+      "status": "Status#0",
+      "author_employee_individual_id": "11111111-1111-1111-1111-111111111111",
+      "type_of_contractor": "ФЛ",
+      "dictionary_name": "ФЛ_1",
+      "main_organization": "Main Organization#0",
+      "full_name": "Full Name#0",
+      "short_contractor_name": "Short Contractor Name#0",
+      "birthday": "2018-01-01",
+      "passport": "Passport#0",
+      "snils": "Snils#0",
+      "ownership_type": "Ownership Type#0",
+      "is_resident": true,
+      "is_agent": true,
+      "is_insider": true,
+      "inn": "1000000001",
+      "kpp": "110101001",
+      "tax_mode": "Tax Mode#0",
+      "agreement_subject": "Agreement Subject#0",
+      "legal_address": "Legal Address#0",
+      "fact_address": "Fact Address#0",
+      "phone": "Phone#0",
+      "email": "email@server.dom",
+      "site": "www.server.dom",
+      "director": "Director#0",
+      "bookkeeper": "Bookkeeper#0"
+    }
+  }
