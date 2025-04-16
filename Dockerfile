@@ -21,7 +21,7 @@ WORKDIR /app
 
 # Копируем собранный бинарник из этапа сборки
 COPY --from=builder /app/mock-producer .
-COPY --from=builder /app/templates .
+COPY --from=builder /app/templates ./templates
 
 EXPOSE 80
 EXPOSE 443
