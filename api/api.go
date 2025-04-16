@@ -16,9 +16,9 @@ import (
 type Pattern map[string]interface{}
 
 type Request struct {
-	Queue   string  `json:"queue"`
+	Queue   string  `json:"queue,omitempty"`
 	Pattern Pattern `json:"pattern"`
-	Count   int     `json:"count"`
+	Count   int     `json:"count,omitempty"`
 	Delay   int     `json:"dekay,omitempty"`
 }
 
@@ -28,8 +28,15 @@ type TemplateRequest struct {
 }
 
 type Handler interface {
+	//отправка сообщения
 	HandlePattern(queue string, pattern Pattern, count, delay int) error
 	HandleTemplate(template, queue string, override Pattern, count, delay int) error
+
+	//Генерация
+	GenPattern(pattern Pattern) (Pattern, error)
+	GenTemplate(template string, override Pattern) (Pattern, error)
+
+	//управление темплейтами
 	GetTemplates() []string
 	GetTemplate(name string) (Pattern, error)
 	AddUpdateTemplate(name string, pattern Pattern) error
@@ -70,6 +77,92 @@ func (a *API) Start(addr string) error {
 }
 
 func (a *API) registerHandlers() {
+	//сгенерировать 1 и получить по паттерну
+	a.router.Post("/gen-pattern", func(w http.ResponseWriter, r *http.Request) {
+		var body Request
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			logger.Log.WithField("endpoint", "/gen-pattern").Errorf("%v", err)
+
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		item, err := a.handler.GenPattern(body.Pattern)
+		if err != nil {
+			logger.Log.WithField("endpoint", "/gen-pattern").Errorf("%v", err)
+
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		jsonData, err := json.Marshal(item)
+		if err != nil {
+			logger.Log.WithField("endpoint", "GET /gen-pattern").Errorf("%v", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		// Устанавливаем заголовок Content-Type
+		w.Header().Set("Content-Type", "application/json")
+		// Отправляем данные
+		w.Write(jsonData)
+	})
+
+	//сгенерировать 1 и получить по темплейту
+	a.router.Post("/gen-template", func(w http.ResponseWriter, r *http.Request) {
+		var body TemplateRequest
+		if err := json.NewDecoder(r.Body).Decode(&body); err != nil {
+			logger.Log.WithField("endpoint", "/gen-template").Errorf("%v", err)
+
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		if body.Template == "" {
+			logger.Log.WithField("endpoint", "/gen-template").Error("template не может быть пустым")
+
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("template не может быть пустым"))
+			return
+		}
+
+		item, err := a.handler.GenTemplate(body.Template, body.Pattern)
+		if err != nil {
+			var templateNotFoundErr types.TemplateNotFoundErr
+			switch {
+			case errors.As(err, &templateNotFoundErr):
+				logger.Log.WithField("endpoint", "/gen-template").Errorf("%v", err)
+				w.WriteHeader(http.StatusNotFound)
+				w.Write([]byte(fmt.Sprintf("темплейт с именем '%s' не найден", body.Template)))
+				return
+			default:
+			}
+			logger.Log.WithField("endpoint", "/gen-template").Errorf("%v", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		jsonData, err := json.Marshal(item)
+		if err != nil {
+			logger.Log.WithField("endpoint", "GET /gen-template").Errorf("%v", err)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(fmt.Sprintf("%v", err)))
+			return
+		}
+
+		w.WriteHeader(http.StatusOK)
+		// Устанавливаем заголовок Content-Type
+		w.Header().Set("Content-Type", "application/json")
+		// Отправляем данные
+		w.Write(jsonData)
+	})
+
 	//отправить сообщения, очередь, json'ка со значениями(паттерном),кол-во
 	a.router.Post("/send-pattern", func(w http.ResponseWriter, r *http.Request) {
 		var body Request
@@ -138,7 +231,7 @@ func (a *API) registerHandlers() {
 			switch {
 			case errors.As(err, &templateNotFoundErr):
 				logger.Log.WithField("endpoint", "/send-template").Errorf("%v", err)
-				w.WriteHeader(http.StatusBadRequest)
+				w.WriteHeader(http.StatusNotFound)
 				w.Write([]byte(fmt.Sprintf("темплейт с именем '%s' не найден", body.Template)))
 				return
 			default:
@@ -186,7 +279,7 @@ func (a *API) registerHandlers() {
 			switch {
 			case errors.As(err, &templateNotFoundErr):
 				logger.Log.WithField("endpoint", fmt.Sprintf("GET /template/%s", name)).Errorf("%v", err)
-				w.WriteHeader(http.StatusBadRequest)
+				w.WriteHeader(http.StatusNotFound)
 				w.Write([]byte(fmt.Sprintf("темплейт с именем '%s' не найден", name)))
 				return
 			default:

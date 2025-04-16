@@ -1,0 +1,127 @@
+{
+    "info": {
+      "name": "mock-producer",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Генерация данных по паттерну",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"pattern\": {\n    \"id\": \"randNum\",\n    \"name\": \"randString\"\n  }\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/gen-pattern"
+          }
+        }
+      },
+      {
+        "name": "Генерация данных по шаблону",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"template\": \"mytemp\",\n  \"pattern\": {\n    \"body\": {\n      \"id\": 1\n    }\n  }\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/gen-template"
+          }
+        }
+      },
+      {
+        "name": "Отправка сообщений по паттерну",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"pattern\": {\n    \"body\": {\n      \"id\": 1\n    }\n  },\n  \"queue\": \"queue\",\n  \"count\": 1,\n  \"delay\": 100\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/send-pattern"
+          }
+        }
+      },
+      {
+        "name": "Отправка сообщений по шаблону",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"template\": \"mytemp\",\n  \"pattern\": {\n    \"body\": {\n      \"id\": 1\n    }\n  },\n  \"queue\": \"queue\",\n  \"count\": 1,\n  \"delay\": 100\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/send-template"
+          }
+        }
+      },
+      {
+        "name": "Получение списка шаблонов",
+        "request": {
+          "method": "GET",
+          "url": {
+            "raw": "{{base_url}}/template"
+          }
+        }
+      },
+      {
+        "name": "Получение шаблона по имени",
+        "request": {
+          "method": "GET",
+          "url": {
+            "raw": "{{base_url}}/template/awesome"
+          }
+        }
+      },
+      {
+        "name": "Создание/обновление шаблона",
+        "request": {
+          "method": "POST",
+          "header": [
+            {
+              "key": "Content-Type",
+              "value": "application/json"
+            }
+          ],
+          "body": {
+            "mode": "raw",
+            "raw": "{\n  \"pattern\": {\n    \"body\": {\n      \"id\": 1\n    }\n  }\n}"
+          },
+          "url": {
+            "raw": "{{base_url}}/template/awesome"
+          }
+        }
+      }
+    ],
+    "variable": [
+      {
+        "key": "base_url",
+        "value": "http://localhost:8080"
+      }
+    ]
+  }

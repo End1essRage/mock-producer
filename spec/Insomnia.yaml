@@ -1,0 +1,235 @@
+type: collection.insomnia.rest/5.0
+name: mock-producer
+meta:
+  id: wrk_079c36849ef6498d81eadf32cd309a11
+  created: 1744804339675
+  modified: 1744804339675
+collection:
+  - url: "{{ _.base_url }}/gen-pattern"
+    name: Генерация данных по паттерну
+    meta:
+      id: req_4de80460f0c9411eb8882d2b3522981c
+      created: 1744804373786
+      modified: 1744804572552
+      isPrivate: false
+      sortKey: -1744804373786
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-2
+         {
+        		"pattern": {
+        			"id": "randNum",
+        			"name": "randString" 
+        		}
+         }
+    headers:
+      - name: Content-Type
+        disabled: false
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/gen-template"
+    name: Генерация данных по шаблону
+    meta:
+      id: req_1bb1f04c123a49b8a0c925616d736207
+      created: 1744804373787
+      modified: 1744804783211
+      isPrivate: false
+      sortKey: -1744804373787
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"template": "mytemp",
+        	"pattern": {
+        		"body": {
+        			"id": 1
+        		}
+        	}
+        }
+    headers:
+      - name: Content-Type
+        disabled: false
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/send-pattern"
+    name: Отправка сообщений по паттерну
+    meta:
+      id: req_d9560da4a69a4d2ab6011206eed3898b
+      created: 1744804373787
+      modified: 1744805021291
+      isPrivate: false
+      sortKey: -1744804373787
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"pattern": {
+        		"body": {
+        			"id": 1
+        		}
+        	},
+        	"queue":"queue",
+        	"count": 1,
+        	"delay": 100
+        }
+    headers:
+      - name: Content-Type
+        disabled: false
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/send-template"
+    name: Отправка сообщений по шаблону
+    meta:
+      id: req_37c05c2d760c4cb1aef1ffd139a7bc42
+      created: 1744804373788
+      modified: 1744804998545
+      isPrivate: false
+      sortKey: -1744804373788
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"template": "mytemp",
+        	"pattern": {
+        		"body": {
+        			"id": 1
+        		}
+        	},
+        	"queue":"queue",
+        	"count": 1,
+        	"delay": 100
+        }
+    headers:
+      - name: Content-Type
+        disabled: false
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/template"
+    name: Получение списка шаблонов
+    meta:
+      id: req_382cecc7ab2140f0becac1e21ccd5672
+      created: 1744804373789
+      modified: 1744804373789
+      isPrivate: false
+      sortKey: -1744804373789
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+  - url: "{{ _.base_url }}/template/:name"
+    name: Получение шаблона по имени
+    meta:
+      id: req_86f05ce5b31640b894558853d8748ec0
+      created: 1744804373789
+      modified: 1744804888661
+      isPrivate: false
+      sortKey: -1744804373789
+    method: GET
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: name
+        value: awesome
+  - url: "{{ _.base_url }}/template/:name"
+    name: Создание/обновление шаблона
+    meta:
+      id: req_079d7849f56d490da81b9c3d9c1a4810
+      created: 1744804373790
+      modified: 1744804872460
+      isPrivate: false
+      sortKey: -1744804373790
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        {
+        	"pattern": {
+        		"body": {
+        			"id": 1
+        		}
+        	}
+        }
+    headers:
+      - name: Content-Type
+        disabled: false
+        value: application/json
+    settings:
+      renderRequestBody: true
+      encodeUrl: true
+      followRedirects: global
+      cookies:
+        send: true
+        store: true
+      rebuildPath: true
+    pathParameters:
+      - name: name
+        value: awesome
+cookieJar:
+  name: Default Jar
+  meta:
+    id: jar_78538b04f185a4104082079cf26f3fe8dcc5013a
+    created: 1744804339679
+    modified: 1744804339679
+environments:
+  name: Base Environment
+  meta:
+    id: env_78538b04f185a4104082079cf26f3fe8dcc5013a
+    created: 1744804339677
+    modified: 1744804373784
+    isPrivate: false
+  data:
+    base_url: "{{ _.scheme }}://{{ _.host }}{{ _.base_path }}"
+  subEnvironments:
+    - name: OpenAPI env example.com
+      meta:
+        id: env_e9955eeb23d9417d920517c486788698
+        created: 1744804373785
+        modified: 1744804414814
+        isPrivate: false
+        sortKey: 1744804373785
+      data:
+        scheme: http
+        host: localhost:8080

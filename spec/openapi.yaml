@@ -1,0 +1,199 @@
+openapi: 3.1.3
+info:
+  title: Mock Producer API
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /gen-pattern:
+    post:
+      summary: Генерация данных по паттерну
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatternRequest'
+            example:
+              pattern:
+                id: randNum
+                name: randString
+      responses:
+        '200':
+          description: Сгенерированные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pattern'
+
+  /gen-template:
+    post:
+      summary: Генерация данных по шаблону
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateRequest'
+            example:
+              template: mytemp
+              pattern:
+                body:
+                  id: 1
+      responses:
+        '200':
+          description: Сгенерированные данные
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pattern'
+
+  /send-pattern:
+    post:
+      summary: Отправка сообщений по паттерну
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendRequest'
+            example:
+              pattern:
+                body:
+                  id: 1
+              queue: queue
+              count: 1
+              delay: 100
+      responses:
+        '200':
+          description: Сообщения успешно отправлены
+
+  /send-template:
+    post:
+      summary: Отправка сообщений по шаблону
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateSendRequest'
+            example:
+              template: mytemp
+              pattern:
+                body:
+                  id: 1
+              queue: queue
+              count: 1
+              delay: 100
+      responses:
+        '200':
+          description: Сообщения успешно отправлены
+
+  /template:
+    get:
+      summary: Получение списка шаблонов
+      responses:
+        '200':
+          description: Список имен шаблонов
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /template/{name}:
+    get:
+      summary: Получение шаблона по имени
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          example: awesome
+      responses:
+        '200':
+          description: Шаблон данных
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pattern'
+    post:
+      summary: Создание/обновление шаблона
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+          example: awesome
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pattern'
+            example:
+              pattern:
+                body:
+                  id: 1
+      responses:
+        '200':
+          description: Шаблон успешно сохранен
+
+components:
+  schemas:
+    Pattern:
+      type: object
+      additionalProperties: true
+      example:
+        body:
+          id: 1
+
+    PatternRequest:
+      type: object
+      properties:
+        pattern:
+          $ref: '#/components/schemas/Pattern'
+      required:
+        - pattern
+
+    TemplateRequest:
+      type: object
+      properties:
+        template:
+          type: string
+        pattern:
+          $ref: '#/components/schemas/Pattern'
+      required:
+        - template
+
+    SendRequest:
+      type: object
+      properties:
+        pattern:
+          $ref: '#/components/schemas/Pattern'
+        queue:
+          type: string
+        count:
+          type: integer
+          minimum: 1
+        delay:
+          type: integer
+      required:
+        - pattern
+        - queue
+        - count
+
+    TemplateSendRequest:
+      allOf:
+        - $ref: '#/components/schemas/SendRequest'
+        - type: object
+          properties:
+            template:
+              type: string
+          required:
+            - template

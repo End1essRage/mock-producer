@@ -59,7 +59,7 @@ func (b *Buffer) FillFromFiles(path string) error {
 
 func (b *Buffer) GetAll() []string {
 	keys := make([]string, 0)
-	for k, _ := range b.Templates {
+	for k := range b.Templates {
 		keys = append(keys, k)
 	}
 
