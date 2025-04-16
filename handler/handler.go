@@ -17,7 +17,7 @@ type Buffer interface {
 }
 
 type Publisher interface {
-	Publish(queue string, pattern []api.Pattern, delay int)
+	Publish(queue string, pattern []api.Pattern, delay int) error
 }
 
 type Handler struct {

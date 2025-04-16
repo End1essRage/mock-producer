@@ -12,11 +12,17 @@ type Config struct {
 
 	//common
 	//rmq
-	RMQ_VIRTUAL_HOST     string `env:"RMQ_VIRTUAL_HOST"`
-	RMQ_PORT             string `env:"RMQ_PORT"`
+	RMQ_ADDRESS      string `env:"RMQ_ADDRESS"`
+	RMQ_VIRTUAL_HOST string `env:"RMQ_VIRTUAL_HOST"`
+	RMQ_PORT         string `env:"RMQ_PORT"`
+	RMQ_EXCHANGE     string `env:"RMQ_EXCHANGE"`
+	//for dev
+	RMQ_LOGIN string `env:"RMQ_LOGIN"`
+	RMQ_PWD   string `env:"RMQ_PWD"`
+
 	SECRET_KEY_RMQ_LOGIN string `env:"SECRET_KEY_RMQ_LOGIN"`
 	SECRET_KEY_RMQ_PWD   string `env:"SECRET_KEY_RMQ_PWD"`
-	RMQ_ADDRESS          string `env:"RMQ_ADDRESS"`
+
 	//vault
 	VAULT_SERVER      string `env:"VAULT_SERVER"`
 	VAULT_SECRET_PATH string `env:"VAULT_SECRET_PATH"`

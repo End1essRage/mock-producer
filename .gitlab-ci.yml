@@ -1,0 +1,5 @@
+include:
+  - project: "devops/ci-scripts"
+    ref: DEVOPSPRO-2541
+    file: "golang/golang-1-24.yml"
+    

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"io"
 	"os"
 	"os/signal"
@@ -18,6 +19,7 @@ import (
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/handler"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/logger"
 	"gitlab.gitlab.bcs.ru/elma365/mock-producer/publisher"
+	"gitlab.gitlab.bcs.ru/elma365/mock-producer/secrets"
 )
 
 var (
@@ -81,7 +83,6 @@ func init() {
 }
 
 func main() {
-	// parse
 	var cfg config.Config
 	// parse with generics
 	cfg, err := env.ParseAs[config.Config]()
@@ -91,10 +92,33 @@ func main() {
 
 	logger.Log.Debugf("%+v", cfg)
 
+	//загружаем темплейты в память
 	b := buffer.New()
 	b.FillFromFiles("./templates")
 
-	p := publisher.New()
+	//генерируем строку подключения к rmq
+	login := ""
+	pwd := ""
+	if Env == config.ENV_DEV {
+		login = cfg.RMQ_LOGIN
+		pwd = cfg.RMQ_PWD
+	} else {
+		creds, err := secrets.NewVault(&cfg).GetCredentials()
+		if err != nil {
+			panic(err)
+		}
+
+		login = creds.RmqLogin
+		pwd = creds.RmqPwd
+	}
+
+	connString := fmt.Sprintf("amqp://%s:%s@%s/", login, pwd, cfg.RMQ_ADDRESS)
+	if cfg.RMQ_VIRTUAL_HOST != "/" {
+		connString += cfg.RMQ_VIRTUAL_HOST
+	}
+
+	//запускаем приложение
+	p := publisher.New(connString, cfg.RMQ_EXCHANGE)
 	g := generator.New()
 
 	handler := handler.New(b, p, g)

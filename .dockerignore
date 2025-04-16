@@ -1,0 +1,9 @@
+spec/
+logs/
+.git
+.gitignore
+.env
+.exe
+Taskfile.yml
+README.md
+Dockerfile
