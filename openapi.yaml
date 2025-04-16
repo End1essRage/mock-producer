@@ -1,0 +1,124 @@
+openapi: 3.1.0
+info:
+  title: Mock Producer API
+  version: 1.0.0
+  description: API for message pattern and template management
+
+paths:
+  /send-pattern:
+    post:
+      summary: Send messages using pattern
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Request'
+      responses:
+        '200':
+          description: Messages sent successfully
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+  /send-template:
+    post:
+      summary: Send messages using template
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateRequest'
+      responses:
+        '200':
+          description: Messages sent successfully
+        '400':
+          description: Invalid request or template not found
+        '500':
+          description: Internal server error
+
+  /template:
+    get:
+      summary: Get list of template names
+      responses:
+        '200':
+          description: List of template names
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+
+  /template/{name}:
+    get:
+      summary: Get template by name
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Template data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pattern'
+        '404':
+          description: Template not found
+
+    post:
+      summary: Create or update template
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Pattern'
+      responses:
+        '201':
+          description: Template created/updated
+        '400':
+          description: Invalid request
+        '500':
+          description: Internal server error
+
+components:
+  schemas:
+    Request:
+      type: object
+      properties:
+        queue:
+          type: string
+        pattern:
+          $ref: '#/components/schemas/Pattern'
+        count:
+          type: integer
+          minimum: 1
+      required:
+        - queue
+        - count
+
+    TemplateRequest:
+      allOf:
+        - $ref: '#/components/schemas/Request'
+        - type: object
+          properties:
+            template:
+              type: string
+          required:
+            - template
+
+    Pattern:
+      type: object
+      additionalProperties: true
