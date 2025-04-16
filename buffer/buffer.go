@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
+	"github.com/end1essrage/mock-producer/api"
 )
 
 type Buffer struct {

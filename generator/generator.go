@@ -1,7 +1,7 @@
 package generator
 
 import (
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
+	"github.com/end1essrage/mock-producer/api"
 )
 
 //генерация по предоставленному шаблону

@@ -1,9 +1,9 @@
 package handler
 
 import (
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/types"
+	"github.com/end1essrage/mock-producer/api"
+	"github.com/end1essrage/mock-producer/logger"
+	"github.com/end1essrage/mock-producer/types"
 )
 
 type Generator interface {

@@ -4,9 +4,9 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/end1essrage/mock-producer/config"
 	vault "github.com/hashicorp/vault/api"
 	auth "github.com/hashicorp/vault/api/auth/kubernetes"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/config"
 )
 
 const ServiceAccountTokenPath = "../var/run/secrets/kubernetes.io/serviceaccount/token"

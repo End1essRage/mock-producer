@@ -10,16 +10,16 @@ import (
 	"time"
 
 	"github.com/caarlos0/env/v11"
+	"github.com/end1essrage/mock-producer/api"
+	"github.com/end1essrage/mock-producer/buffer"
+	"github.com/end1essrage/mock-producer/config"
+	"github.com/end1essrage/mock-producer/generator"
+	"github.com/end1essrage/mock-producer/handler"
+	"github.com/end1essrage/mock-producer/logger"
+	"github.com/end1essrage/mock-producer/publisher"
+	"github.com/end1essrage/mock-producer/secrets"
 	"github.com/joho/godotenv"
 	"github.com/sirupsen/logrus"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/buffer"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/config"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/generator"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/handler"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/publisher"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/secrets"
 )
 
 var (

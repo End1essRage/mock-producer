@@ -7,8 +7,8 @@ import (
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
 	"github.com/ThreeDotsLabs/watermill/message"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/api"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
+	"github.com/end1essrage/mock-producer/api"
+	"github.com/end1essrage/mock-producer/logger"
 )
 
 type Publisher struct {

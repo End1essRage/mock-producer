@@ -1,4 +1,4 @@
-module gitlab.gitlab.bcs.ru/test-tools/mock-producer
+module github.com/end1essrage/mock-producer
 
 go 1.24.0
 

@@ -7,10 +7,10 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/end1essrage/mock-producer/logger"
+	"github.com/end1essrage/mock-producer/types"
 	"github.com/go-chi/chi/v5"
 	"github.com/sirupsen/logrus"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/logger"
-	"gitlab.gitlab.bcs.ru/test-tools/mock-producer/types"
 )
 
 type Pattern map[string]interface{}
