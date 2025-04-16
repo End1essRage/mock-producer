@@ -1,9 +1,6 @@
 # Используем образ golang для сборки
-FROM artifactory.gitlab.bcs.ru/docker-local/golang:1.24 AS builder
 
-ARG GO_LIBS_TOKEN
-
-RUN git config --global url."https://oauth2:${GO_LIBS_TOKEN}@gitlab.gitlab.bcs.ru".insteadOf "https://gitlab.gitlab.bcs.ru"
+FROM golang:alpine AS builder
 
 WORKDIR /app
 
@@ -14,7 +11,7 @@ COPY . .
 
 RUN CGO_ENABLED=0 GOOS=linux go build -o /app/mock-producer ./main.go
 
-FROM registry.gitlab.bcs.ru/devops/images/docker/alpine-3-18-with-certs:master
+FROM alpine:latest
 
 # Устанавливаем рабочую директорию
 WORKDIR /app

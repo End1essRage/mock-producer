@@ -4,6 +4,7 @@ logs/
 .gitignore
 .env
 .exe
+coverage.out
 Taskfile.yml
 README.md
 Dockerfile

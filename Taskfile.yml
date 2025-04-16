@@ -1,6 +1,9 @@
 version: '3'
 
 vars:
+  IMAGE_NAME: "mock-sender"
+  VERSION: "latest"
+  DOCKER_REGISTRY: "end1essrage/"
   BRANCH_NAME: ""
   COMMIT_MESSAGE: ""
 
@@ -18,14 +21,14 @@ tasks:
     env:
       CGO_ENABLED: "1"
     cmds:
-      - go test -bench=. -benchmem -v ./...
+      - go test -bench= . -benchmem -v ./...
 
   # Покрытие кода
   test_cover:
     desc: Generate test coverage
     cmds:
-      - go test -coverprofile=coverage.out ./...
-      - go tool cover -html=coverage.out
+      - go test -coverprofile= coverage.out ./...
+      - go tool cover -html= coverage.out
 
   # Очистка
   test_clean:
@@ -41,3 +44,53 @@ tasks:
       - git add -A
       - git commit -m "{{.COMMIT_MESSAGE}}"
       - git push --set-upstream origin {{.BRANCH_NAME}}
+
+  # Запуск всех сервисов через Docker Compose
+  up:
+    desc: Start Rmq and MockSender
+    cmds:
+      - docker-compose up -d --build
+    env:
+      # .env
+      ENV: "ENV_DEV"
+      DEBUG: "1"
+      # RMQ
+      RMQ_VIRTUAL_HOST: "/"
+      RMQ_PORT: 5672
+      RMQ_EXCHANGE: "my-exchange"
+      # Dev credentials
+      RMQ_LOGIN: "login"
+      RMQ_PWD: "pwd"
+
+
+  # Остановка всех сервисов
+  down:
+    desc: Stop all services
+    cmds:
+      - docker-compose down
+
+  # создание имейджа
+  build:
+    desc: Build Docker image with multiple tags
+    cmds:
+      - docker build -t {{.DOCKER_REGISTRY}}{{.IMAGE_NAME}}:{{.VERSION}} -t {{.DOCKER_REGISTRY}}{{.IMAGE_NAME}}:latest .
+    sources:
+      - Dockerfile
+
+  # пуш в реджистри
+  push:
+    desc: Push both tags to registry
+    cmds:
+      - docker push {{.DOCKER_REGISTRY}}{{.IMAGE_NAME}}:{{.VERSION}}
+      - docker push {{.DOCKER_REGISTRY}}{{.IMAGE_NAME}}:latest
+
+  # удаление контейнера
+  remove:
+    desc: Remove existing container
+    cmds:
+      - docker rm -f {{.IMAGE_NAME}} || true
+
+  # билд + пуш
+  all:
+    desc: Build, tag and push image
+    deps: [test, build, push]

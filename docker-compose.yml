@@ -1,0 +1,43 @@
+services:
+  rabbit:
+    image: rabbitmq:management
+    container_name: rabbitmq
+    hostname: rabbit
+    environment:
+      RABBITMQ_DEFAULT_USER: "${RMQ_LOGIN}"
+      RABBITMQ_DEFAULT_PASS: "${RMQ_PWD}"
+      RABBITMQ_DEFAULT_VHOST: "${RMQ_VIRTUAL_HOST}"
+    ports:
+      - "5672:5672"    # AMQP
+      - "15672:15672"  # Management UI
+    networks:
+      - rmq-network
+    healthcheck:
+      test: rabbitmq-diagnostics check_port_connectivity
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mock-producer:
+    build: . # путь к Dockerfile вашего приложения
+    environment:
+      ENV: "${ENV}"
+      DEBUG: "${DEBUG}"
+      RMQ_ADDRESS: "rabbit"  # используем имя сервиса для внутренней коммуникации
+      RMQ_VIRTUAL_HOST: "${RMQ_VIRTUAL_HOST}"
+      RMQ_PORT: "${RMQ_PORT}"
+      RMQ_EXCHANGE: "${RMQ_EXCHANGE}"
+   
+      RMQ_LOGIN: "${RMQ_LOGIN}"    # для dev среды
+      RMQ_PWD: "${RMQ_PWD}"       # для dev среды
+    ports:
+      - "8080:8080"  
+    networks:
+      - rmq-network
+    depends_on:
+      rabbit:
+        condition: service_healthy
+
+networks:
+  rmq-network:
+    driver: bridge

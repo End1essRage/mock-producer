@@ -2,8 +2,8 @@ package config
 
 const (
 	ENV_DEV  = "ENV_DEV"  // for local deploy, mocking services
-	ENV_TEST = "ENV_TEST" // for deploy on test
-	ENV_PROD = "ENV_PROD"
+	ENV_TEST = "ENV_TEST" // for deploy on test no secrets
+	ENV_PROD = "ENV_PROD" // for deploy with vault
 )
 
 type Config struct {

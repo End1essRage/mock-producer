@@ -2,6 +2,7 @@ package publisher
 
 import (
 	"encoding/json"
+	"time"
 
 	"github.com/ThreeDotsLabs/watermill"
 	"github.com/ThreeDotsLabs/watermill-amqp/pkg/amqp"
@@ -74,8 +75,8 @@ func (p *Publisher) Publish(queue string, pattern []api.Pattern, delay int) erro
 		logger.Log.WithField("caller", "publisher").Infof("pattern is %+v", v)
 	}
 
-	for item := range pattern {
-		data, err := json.Marshal(item)
+	for _, pat := range pattern {
+		data, err := json.Marshal(pat)
 		if err != nil {
 			logger.Log.WithField("caller", "publisher").Errorf("ошибка сериализации: %v", err)
 			return err
@@ -83,10 +84,14 @@ func (p *Publisher) Publish(queue string, pattern []api.Pattern, delay int) erro
 
 		msg := message.NewMessage(watermill.NewUUID(), data)
 
+		logger.Log.WithField("caller", "publisher").Debugf("сообщение: %+v", msg)
+
 		if err := p.publisher.Publish(queue, msg); err != nil {
 			logger.Log.WithField("caller", "publisher").Errorf("ошибка отправки сообщения: %v", err)
 			return err
 		}
+
+		time.Sleep(time.Duration(delay) * time.Millisecond)
 	}
 
 	return nil
