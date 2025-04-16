@@ -2,3 +2,4 @@
 *.exe
 logs
 coverage.out
+.task
