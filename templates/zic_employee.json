@@ -1,0 +1,44 @@
+{
+  "system_block": {
+    "message_type": "#employee",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "8de1ab92-cb76-11de-baba-001731a73c7d",
+    "event": "Updated",
+    "event_time": "2025-01-15T10:00:32"
+  },
+  "body": {
+    "individual_id": "randUuid",
+    "position_id": null,
+    "clock_number": "М000000108",
+    "cfo_id": "randUuid",
+    "employee_id": "randUuid",
+    "rate": null,
+    "is_rate_released": false,
+    "type_of_contract": "randString",
+    "employment_type": "randString",
+    "time_table_id": "randUuid",
+    "format_of_work": null,
+    "cfo_change_list": [
+      {
+        "cfo_id": null,
+        "date": "1980-01-01",
+        "comment": null
+      }
+    ],
+    "has_quik_act": false,
+    "has_quik_agreement": false,
+    "is_insider_po": false,
+    "has_edf_agreement": false,
+    "owner_id": "randUuid",
+    "quik_info": {
+      "user_quik": false,
+      "agreement_quik": false,
+      "conflict_of_interest": false,
+      "financially_responsible": false,
+      "user_dma": false,
+      "agreement_dma": false,
+      "financially_responsible_dma": false
+    }
+  }
+}

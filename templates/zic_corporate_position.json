@@ -1,0 +1,73 @@
+{
+  "system_block": {
+    "message_type": "#corporate_position",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "27a76172-355d-11e7-8536-0050569700b1",
+    "event": "Updated",
+    "event_time": "2025-01-23T11:45:18"
+  },
+  "body": {
+    "id": "randUuid",
+    "previous_id": null,
+    "shortcode": "3134",
+    "code": "8",
+    "name": "randString",
+    "source_name": "randString",
+    "is_position": true,
+    "is_manage_position": false,
+    "is_main": false,
+    "is_part_time": false,
+    "is_technical": false,
+    "is_acting": false,
+    "reason": "randUuid",
+    "created_date": "2017-05-10",
+    "closed_date": "2017-05-11",
+    "parent_id": "randUuid",
+    "is_used": true,
+    "hr_bp_employee_id": "randUuid",
+    "hr_bp_junior_employee_id": "randUuid",
+    "hr_bp_individual_id": "randUuid",
+    "hr_bp_junior_individual_id": "randUuid",
+    "responsibility_UOR_employee_id": "randUuid",
+    "matrix_manager_corporate_position_id": "randUuid",
+    "category_it": false,
+    "customer_relations": "randUuid",
+    "nop_employee_id": "randUuid",
+    "nop_individual_id": "randUuid",
+    "top_level": "randUuid",
+    "amt_code": "randUuid",
+    "staff_list_position_list": [
+      {
+        "id": "randUuid",
+        "code": "6858",
+        "source": "randString",
+        "basic": true,
+        "date": "2017-05-10T00:00:00",
+        "active": true,
+        "erp_parameters": {
+          "erp_staff_id": "randUuid",
+          "erp_budget_id": "randUuid"
+        }
+      },
+      {
+        "id": "randUuid",
+        "code": "2841",
+        "source": "randString",
+        "basic": true,
+        "date": "2017-05-10T00:00:00",
+        "active": true,
+        "erp_parameters": {
+          "erp_staff_id": "randUuid",
+          "erp_budget_id": "randUuid"
+        }
+      }
+    ],
+    "erp_parameters": {
+      "erp_id_corpposition": "randUuid",
+      "erp_parent_id": "randUuid",
+      "erp_change_request_id": "randUuid",
+      "lotus_notes": null
+    }
+  }
+}

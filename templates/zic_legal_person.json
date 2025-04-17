@@ -1,0 +1,25 @@
+{
+  "system_block": {
+    "message_type": "#legal_person",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "23affac6-053d-11e1-8530-0050569700b1",
+    "event": "Updated",
+    "event_time": "2025-01-23T11:16:30"
+  },
+  "body": {
+    "id": "randUuid",
+    "code": "000000014",
+    "name": "randString",
+    "short_name": "randString",
+    "org_form": "randString",
+    "legal_country": "randUuid",
+    "legal_address": "randUuid",
+    "fact_address": "randUuid",
+    "fact_city": "randUuid",
+    "payroll_accountant_individual_id": "randUuid",
+    "payroll_accountant_position_code": "29479",
+    "payroll_accountant_substitute_individual_id": "randUuid",
+    "payroll_accountant_substitute_position_code": "21719"
+  }
+}

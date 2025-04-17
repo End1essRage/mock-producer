@@ -1,0 +1,104 @@
+{
+  "system_block": {
+    "message_type": "#staff_list_position",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "620aaa86-16de-11e8-b4a4-0050569700b1",
+    "event": "Updated",
+    "event_time": "2025-04-17T09:03:35"
+  },
+  "body": {
+    "key": {
+      "code": "15951",
+      "id": "randUuid",
+      "date": "2025-03-26",
+      "legal_person_id": "randUuid",
+      "department_id": "randUuid",
+      "position_id": "randUuid",
+      "position_name": "randString"
+    },
+    "erp_parameters": {
+      "erp_staff_id": "randUuid",
+      "erp_department_id": "randUuid",
+      "erp_position_id": "randUuid",
+      "erp_parent_corpposition_id": "randUuid",
+      "erp_change_request_id": "randUuid",
+      "erp_budget_id": "randUuid",
+      "lotus_notes": null
+    },
+    "status": "Закрытая",
+    "quantity": "0",
+    "time_table_id": "randUuid",
+    "work_mode_id": "randUuid",
+    "category": "4",
+    "description": null,
+    "reason_of_category_changed": null,
+    "reason_of_mode_changed": "randString",
+    "reason_input": "randString",
+    "reason_input_comment": "randString",
+    "is_certificate_required": false,
+    "certificate_series": null,
+    "is_insider": false,
+    "prof_participant": false,
+    "culc_type_id": "randUuid",
+    "employee_role_id": "randUuid",
+    "cfo_id": "randUuid",
+    "cfo_dwh_id": "691",
+    "responsible_personnel_officer_employee_id": "randUuid",
+    "responsible_personnel_officer_position_code": "7790",
+    "responsible_personnel_officer_individual_id": "randUuid",
+    "substitute_responsible_personnel_officer_employee_id": "randUuid",
+    "substitute_responsible_personnel_officer_position_code": "14698",
+    "substitute_responsible_personnel_officer_individual_id": "randUuid",
+    "position_name_english": null,
+    "is_department_manager": false,
+    "hr_manager_individual_id": "randUuid",
+    "hr_manager_position_code": "5452",
+    "hr_manager_substitute_individual_id": "randUuid",
+    "hr_manager_substitute_position_code": "7648",
+    "work_function_id": "randUuid",
+    "top100": false,
+    "code_lotus": "NchOffice",
+    "trade_terminal_quik_dma": false,
+    "cfo_change_list": [
+      {
+        "cfo_id": "randUuid",
+        "date": "2018-02-01",
+        "comment": null
+      }
+    ],
+    "is_require_higher_education": false,
+    "is_controlled_by_cb": false,
+    "created_date": "2018-02-21",
+    "closed_date": "2025-03-26",
+    "zic_change_document_id": "randUuid",
+    "zic_change_document_code": "БК023324",
+    "contract_instruction": "ДИ-57/БКС",
+    "additional_properties": {
+      "block1": "randString",
+      "block2": "randString",
+      "function1": "randString",
+      "function2": "randString",
+      "function3": "randString",
+      "budget_category_id": "randUuid",
+      "budget_category_name": "randString"
+    },
+    "status_change_list": [
+      {
+        "date": "2018-02-21",
+        "status": "Актуальная",
+        "quantity": "1"
+      },
+      {
+        "date": "2025-02-06",
+        "status": "Актуальная",
+        "quantity": "0.5"
+      },
+      {
+        "date": "2025-03-26",
+        "status": "Закрытая",
+        "quantity": "0"
+      }
+    ]
+  }
+}
