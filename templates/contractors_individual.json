@@ -8,7 +8,7 @@
     "event_time": "randPDate"
   },
   "body": {
-    "id": "RandNum",
+    "id": "randNum",
     "status": "randString",
     "author_employee_individual_id": "randUuid",
     "type_of_contractor": "ФЛ",
