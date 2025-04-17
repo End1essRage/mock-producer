@@ -72,11 +72,9 @@ func initAmqpConfig(connString, exchange string) amqp.Config {
 
 func (p *Publisher) Publish(queue string, pattern []api.Pattern, delay int) error {
 	for _, v := range pattern {
-		logger.Log.WithField("caller", "publisher").Infof("pattern is %+v", v)
-	}
+		logger.Log.WithField("caller", "publisher").Debugf("pattern is %+v", v)
 
-	for _, pat := range pattern {
-		data, err := json.Marshal(pat)
+		data, err := json.Marshal(v)
 		if err != nil {
 			logger.Log.WithField("caller", "publisher").Errorf("ошибка сериализации: %v", err)
 			return err
