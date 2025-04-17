@@ -7,8 +7,6 @@ import (
 //генерация по предоставленному шаблону
 //генерация по template
 
-type Gen map[string]func() any
-
 type Generator struct {
 	flags Gen
 }
