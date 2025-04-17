@@ -38,6 +38,30 @@ VAULT_MOUNT_POINT="secret"
 VAULT_ROLE_NAME="app-role"
 ```
 
+## Ключи генерации
+
+Используйте специальные ключи в полях паттерна:
+
+| Ключ | Описание |
+|:-----|:---------|
+| randUuid | Случайный uuid |
+| randNum | Случайное целое число |
+| randString | Случайная строка |
+| randBool | Случайный true/false |
+| randFDate | Случайная дата > now |d
+| randPDate | Случайная дата < now |
+
+
+Пример использования:
+```json
+{
+  "user": {
+    "id": "randNum",
+    "token": "randString"
+  }
+}
+```
+
 ## Эндпоинты
 
 у паттерн может быть любая глубина map[string]interface{}
@@ -88,21 +112,3 @@ VAULT_ROLE_NAME="app-role"
 | GET | {{ _.base_url }}/template/:name | Получить шаблон |
 | POST | {{ _.base_url }}/template/:name | Создать, обновить шаблон |		
 
-## Генерация случайных данных
-
-Используйте специальные ключи в полях паттерна:
-
-| Ключ | Описание | Пример |
-|:-----|:---------|:-------|
-| randNum | Случайное целое число | 42 |
-| randString | Случайная строка | "xYz3fG" |
-
-Пример использования:
-```json
-{
-  "user": {
-    "id": "randNum",
-    "token": "randString"
-  }
-}
-```
