@@ -38,7 +38,7 @@ func (g *Generator) RegisterFlags() {
 	statuses := []string{"Черновик", "На проверку", "Назначен проверяющий", "В работе", "Проверен СБ",
 		"Черный список", "Отложено", "На проверку повторно"}
 	gen["typeStatus"] = func() any {
-		index := gofakeit.IntRange(0, len(statuses))
+		index := gofakeit.IntRange(0, len(statuses)-1)
 		return statuses[index]
 	}
 
@@ -46,23 +46,15 @@ func (g *Generator) RegisterFlags() {
 		"Иностранное физическое лицо", "МУП", "ПИФ", "ЗПИФ",
 		"Некоммерческая организация", "Другое", "ПАО", "ОАО"}
 	gen["typeOwnerShip"] = func() any {
-		index := gofakeit.IntRange(0, len(ownerShips))
+		index := gofakeit.IntRange(0, len(ownerShips)-1)
 		return ownerShips[index]
 	}
 
 	taxModes := []string{"Классическая система н/о", "УСН", "ЕНВД", "ЕСХН", "Патент"}
 	gen["typeTaxMode"] = func() any {
-		index := gofakeit.IntRange(0, len(taxModes))
+		index := gofakeit.IntRange(0, len(taxModes)-1)
 		return taxModes[index]
 	}
-
-	/*
-		Возможные значения: (это для поля status)
-		typeOwnerShip
-		Возможные значения:  (это для поля ownership_type)
-		typeTaxMode
-		Возможные значения: Классическая система н/о / УСН / ЕНВД / ЕСХН / Патент (это для поля tax_mode)
-	*/
 
 	g.flags = gen
 }
