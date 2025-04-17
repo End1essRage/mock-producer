@@ -86,8 +86,10 @@ func (p *Publisher) Publish(queue string, pattern []api.Pattern, delay int) erro
 			logger.Log.WithField("caller", "publisher").Errorf("ошибка отправки сообщения: %v", err)
 			return err
 		}
-
+		logger.Log.WithField("caller", "publisher").Debug("sended")
+		logger.Log.WithField("caller", "publisher").Debugf("will sleep %v", delay)
 		time.Sleep(time.Duration(delay) * time.Millisecond)
+		logger.Log.WithField("caller", "publisher").Debug("unsleeped")
 	}
 
 	return nil
