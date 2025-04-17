@@ -1,0 +1,22 @@
+{
+  "system_block": {
+    "message_type": "#branch",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "randUuid",
+    "event": "Updated",
+    "event_time": "randPDate"
+  },
+  "body": {
+    "id": "randUuid",
+    "code": "00083",
+    "name": "randString",
+    "owner_id": "randUuid",
+    "fact_city": "randString",
+    "id_fact_city": "randUuid",
+    "is_remote_employee": "randBool",
+    "address": "randString",
+    "code_lotus": "randString",
+    "name_lotus": "randString"
+  }
+}

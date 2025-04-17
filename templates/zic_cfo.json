@@ -1,0 +1,19 @@
+{
+  "system_block": {
+    "message_type": "#cfo",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "randUuid",
+    "event": "Updated",
+    "event_time": "randPDate"
+  },
+  "body": {
+    "id": "randUuid",
+    "ext_id": "randString",
+    "id_cost_control": "randInt",
+    "manage_code": "randNum",
+    "code": "randNum",
+    "name": "randString",
+    "liquidation_date": "randPDate"
+  }
+}

@@ -1,0 +1,51 @@
+{
+  "system_block": {
+    "message_type": "#department",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "randUuid",
+    "event": "Updated",
+    "event_time": "randPDate"
+  },
+  "body": {
+    "id": "randUuid",
+    "id_company_bcs": "randUuid",
+    "code": "randNum",
+    "name": "randString",
+    "parent_id": "randUuid",
+    "parent_id_company_bcs": "randUuid",
+    "legal_person_id": "randUuid",
+    "branch_id": "randUuid",
+    "cfo_id": "randUuid",
+    "cfo_dwh_id": "randNum",
+    "is_used": "randBool",
+    "responsible_personnel_officer_employee_id": "randUuid",
+    "substitute_responsible_personnel_officer_employee_id": "randUuid",
+    "name_english": "randString",
+    "is_service_office": "randBool",
+    "erp_parameters": {
+      "number_of_regulation": "-",
+      "erp_position_id": "randUuid"
+    },
+    "cfo_change_list": [
+      {
+        "cfo_id": "randUuid",
+        "date": "randPDate",
+        "comment": "randString"
+      }
+    ],
+    "parent_department_names": {
+      "full_department_name": "randString",
+      "full_department_reverse_name": "randString",
+      "directorate": "randString",
+      "division": "randString",
+      "region": "randString",
+      "company_town": "randString",
+      "branch": "randString",
+      "agency": "randString",
+      "management": "randString",
+      "department": "randString",
+      "group": "randString"
+    }
+  }
+}

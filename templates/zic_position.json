@@ -1,0 +1,20 @@
+{
+  "system_block": {
+    "message_type": "#position",
+    "originator": "1C.ZIC.BCS",
+    "mean_for": "IS.Clipboard",
+    "document_id": "randUuid",
+    "event": "Updated",
+    "event_time": "randPDate"
+  },
+  "body": {
+    "id": "randUuid",
+    "code": "randNum",
+    "name": "randString",
+    "position_type": "randString",
+    "erp_parameters": {
+      "erp_position_id": "randUuid"
+    },
+    "is_manager": "randBool"
+  }
+}
